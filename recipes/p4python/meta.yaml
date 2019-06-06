@@ -1,0 +1,47 @@
+{% set name = "p4python" %}
+{% set version = "18.2" %}
+{% set version = "2018.2.1743033" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: ftp://ftp.perforce.com/perforce/r{{ version }}/bin.tools/p4python.tgz
+  sha256: caa37ea520566f50181b042a474eb8012ff8dcbcc0512874170ad34bea1ba0c0
+
+build:
+  number: 0
+  script: 
+    - "{{ PYTHON }} setup.py build --apidir $PREFIX --ssl $PREFIX/lib"   # [unix]
+    - "{{ PYTHON }} setup.py install --apidir $PREFIX  --ssl $PREFIX/lib"       # [unix]
+    - "{{ PYTHON }} setup.py build --apidir %PREFIX%  --ssl %PREFIX%\\lib"        # [win]
+    - "{{ PYTHON }} setup.py install --apidir %PREFIX%  --ssl %PREFIX%\\lib"      # [win]
+
+requirements:
+  build:
+    - {{ compilers('c') }}
+    - {{ compilers('cxx') }}
+  host:
+    - pip
+    - python
+    - p4api
+  run:
+    - python
+    - p4api
+
+test:
+  imports:
+    - P4
+
+about:
+  home: http://www.perforce.com
+  license: Freely Distributable 
+  license_family: OTHER
+  license_file: LICENSE.txt
+  summary: P4Python - Python interface to Perforce API
+  doc_url: https://www.perforce.com/manuals/p4python/
+
+extra:
+  recipe-maintainers:
+    - marcelotrevisani
