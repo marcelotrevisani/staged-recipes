@@ -1,0 +1,45 @@
+{% set name = "oclint" %}
+{% set version = "0.15" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/oclint/oclint/archive/v{{ version }}.tar.gz
+  sha256: ca798c0bc7030f40117cb6bbf82a7310e315b9ed03173e13b9c695a3ab7539c9
+
+build:
+  number: 0
+  skip: true  # [win]
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
+    - cmake
+    - make
+  host:
+    - python
+    - openssl
+  run:
+    - python
+    - openssl
+
+test:
+  commands:
+    - oclint --help
+    - test -f ${PREFIX}/bin/oclint  # [unix]
+    - test -d ${PREFIX}/lib/oclint  # [unix]
+
+about:
+  home: https://oclint.org/
+  license: BSD-3-Clause
+  license_file: oclint-scripts/LICENSE
+  summary: 'OCLint is a static code analysis tool for improving quality and reducing defects by inspecting C, C++ and Objective-C code.'
+  doc_url: http://docs.oclint.org/
+  dev_url: https://github.com/oclint/oclint
+
+extra:
+  recipe-maintainers:
+    - marcelotrevisani
