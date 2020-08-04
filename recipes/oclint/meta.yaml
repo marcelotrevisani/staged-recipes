@@ -19,9 +19,12 @@ requirements:
     - {{ compiler('c') }}
     - cmake
     - make
+    - git
+    - svn
   host:
     - python
     - openssl
+    - llvm
   run:
     - python
     - openssl
